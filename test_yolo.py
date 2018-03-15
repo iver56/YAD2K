@@ -115,11 +115,10 @@ def _main(args):
         iou_threshold=args.iou_threshold)
 
     for image_file in os.listdir(test_path):
-        try:
-            image_type = imghdr.what(os.path.join(test_path, image_file))
-            if not image_type:
-                continue
-        except IsADirectoryError:
+        if os.path.isdir(os.path.join(test_path, image_file)):
+            continue
+        image_type = imghdr.what(os.path.join(test_path, image_file))
+        if not image_type:
             continue
 
         image = Image.open(os.path.join(test_path, image_file))
